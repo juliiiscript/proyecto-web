@@ -1,0 +1,37 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "estudio_db";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+  die("Error conexión: " . $conn->connect_error);
+}
+
+$nombre = $_GET['nombre'];
+$email = $_GET['email'];
+$mensaje = $_GET['mensaje'];
+
+$sql = "INSERT INTO contactos (nombre, email, mensaje) VALUES ('$nombre', '$email', '$mensaje')";
+
+if ($conn->query($sql) === TRUE) {
+  echo '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>';
+  echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
+  echo '<script>
+  Swal.fire({
+    title: "¡Guardado!",
+    text: "Los datos se guardaron correctamente",
+    icon: "success",
+    confirmButtonText: "OK"
+  }).then(() => {
+    window.location = "formulario.html";
+  });
+  </script>';
+  echo '</body></html>';
+} else {
+  echo "Error: " . $sql . "<br>" . $conn->error;
+}
+$conn->close();
+?>
